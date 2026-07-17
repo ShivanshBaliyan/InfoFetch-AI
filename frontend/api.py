@@ -1,10 +1,11 @@
 import httpx
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
+import os
 
-# load_dotenv()
+load_dotenv()
 
-BASE_URL = "http://127.0.0.1:8000"
-
+# BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = os.getenv("BASE_URL", "")
 
 async def get_health():
     async with httpx.AsyncClient() as client:
