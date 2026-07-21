@@ -1,21 +1,24 @@
+import os
+
 import httpx
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
 BASE_URL = os.getenv("BASE_URL", "")
+print(f"BASE_URL = {BASE_URL!r}")
 
-client = httpx.AsyncClient(base_url=BASE_URL)
+client = httpx.Client(base_url=BASE_URL)
 
-async def get_health():
-    response = await client.get("/health")
+
+def get_health():
+    response = client.get("/health")
     response.raise_for_status()
     return response.json()
-    
 
-async def send_message(message: str):
-    response = await client.post(
+
+def send_message(message: str):
+    response = client.post(
         "/chat",
         json={"message": message}
     )
@@ -23,5 +26,5 @@ async def send_message(message: str):
     return response.json()
 
 
-# async def close_client():
-#     await client.aclose()
+def close_client():
+    client.close()
