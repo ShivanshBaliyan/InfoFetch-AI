@@ -1,5 +1,5 @@
 from schemas import ApiResponse, ChatData, ChatRequest
-from intents import Intent
+from intents import Intent, CricketQuery
 from clients import get_current_matches
 
 
@@ -25,6 +25,14 @@ def detect_intent(message: str) -> Intent:
         "scores",
         "ipl",
         "live",
+        "fixture",
+        "fixtures",
+        "player",
+        "batsman",
+        "bowler",
+        "captain",
+        "kohli",
+        "rohit",
     }
 
     if any(word in greeting_keywords for word in words):
@@ -36,15 +44,41 @@ def detect_intent(message: str) -> Intent:
     return Intent.UNKNOWN
 
 
+def detect_cricket_query(message: str) -> CricketQuery:
+    words = message.lower().split()
+
+    live_keywords = {"live", "match", "matches", "current"}
+    score_keywords = {"score", "scores", "result"}
+    upcoming_keywords = {"next", "upcoming", "fixture", "fixtures"}
+    player_keywords = {
+        "player",
+        "batsman",
+        "bowler",
+        "captain",
+        "kohli",
+        "rohit",
+    }
+
+    if any(word in live_keywords for word in words):
+        return CricketQuery.LIVE_MATCHES
+
+    if any(word in score_keywords for word in words):
+        return CricketQuery.SCORE
+
+    if any(word in upcoming_keywords for word in words):
+        return CricketQuery.UPCOMING
+
+    if any(word in player_keywords for word in words):
+        return CricketQuery.PLAYER
+
+    return CricketQuery.UNKNOWN
+
+
 def greeting_response() -> str:
     return "Hello! 👋 How can I help you today?"
 
 
 def format_matches(matches: dict) -> str:
-    """
-    Convert the CricketData API response into
-    a user-friendly text.
-    """
     data = matches.get("data", [])
 
     if not data:
@@ -74,10 +108,30 @@ def format_matches(matches: dict) -> str:
     return "\n".join(lines)
 
 
-async def cricket_response() -> str:
-    matches = await get_current_matches()
+async def cricket_response(message: str) -> str:
+    query = detect_cricket_query(message)
 
-    return format_matches(matches)
+    if query == CricketQuery.LIVE_MATCHES:
+        matches = await get_current_matches()
+        return format_matches(matches)
+
+    elif query == CricketQuery.SCORE:
+        return "🏏 Score feature coming soon."
+
+    elif query == CricketQuery.UPCOMING:
+        return "📅 Upcoming matches feature coming soon."
+
+    elif query == CricketQuery.PLAYER:
+        return "👤 Player information feature coming soon."
+
+    else:
+        return (
+            "Please ask about:\n"
+            "• Live matches\n"
+            "• Match scores\n"
+            "• Upcoming matches\n"
+            "• Cricket players"
+        )
 
 
 def unknown_response() -> str:
@@ -91,7 +145,7 @@ async def chat(request: ChatRequest) -> ApiResponse:
         reply = greeting_response()
 
     elif intent == Intent.CRICKET:
-        reply = await cricket_response()
+        reply = await cricket_response(request.message)
 
     else:
         reply = unknown_response()
@@ -99,7 +153,5 @@ async def chat(request: ChatRequest) -> ApiResponse:
     return ApiResponse(
         success=True,
         message="Response generated successfully.",
-        data=ChatData(
-            reply=reply
-        )
+        data=ChatData(reply=reply)
     )
