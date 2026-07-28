@@ -257,25 +257,16 @@ async def cricket_response(message: str) -> str:
     elif query == CricketQuery.POINTS_TABLE:
         return "📊 Points table feature coming soon."
 
-    # query_text = extract_query(message)
-
     query_text = extract_query(message)
 
-    print("Original :", message)
-    print("Searching:", query_text)
-
     search = await search_players(query_text)
-
-    print(search)
-
-    # search = await search_players(query_text)
 
     players = search.get("data", [])
 
     if players:
         return await player_response_by_id(players[0]["id"])
 
-    return unknown_response()
+    return unknown_response(message)
 
 
 def unknown_response(message: str) -> str:

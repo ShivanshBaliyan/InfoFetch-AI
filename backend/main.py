@@ -15,5 +15,5 @@ app.include_router(router)
 @app.get("/")
 async def root():
     return {
-        "message": "Welcome to Website Data Chatbot API"
+        "message": "Welcome to Cricket Data Chatbot API"
     }
