@@ -278,8 +278,18 @@ async def cricket_response(message: str) -> str:
     return unknown_response()
 
 
-def unknown_response() -> str:
-    return "Sorry, I didn't understand your request."
+def unknown_response():
+    return (
+        "👋 I'm a Cricket Assistant.\n\n"
+        "I can help you with:\n"
+        "- Live matches\n"
+        "- Upcoming matches\n"
+        "- Player information\n"
+        "- Match details\n"
+        "- Series information\n\n"
+        "I can't answer general questions like "
+        "\"What is ChatGPT?\" or \"Who is Elon Musk?\""
+    )
 
 
 async def chat(request: ChatRequest) -> ApiResponse:
