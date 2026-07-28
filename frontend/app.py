@@ -3,10 +3,10 @@ from api import send_message
 
 st.set_page_config(
     page_title="Cricket Data Chatbot",
-    page_icon="💬",
+    page_icon="🏏",
 )
 
-st.title("💬 Cricket Data Chatbot")
+st.title("🏏 Cricket Data Chatbot")
 
 # Initialize conversation
 if "messages" not in st.session_state:
