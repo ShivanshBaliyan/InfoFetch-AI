@@ -2,7 +2,7 @@ import streamlit as st
 from api import send_message
 
 st.set_page_config(
-    page_title="Website Data Chatbot",
+    page_title="Cricket Data Chatbot",
     page_icon="💬",
 )
 
