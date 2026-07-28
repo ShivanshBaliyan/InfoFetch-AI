@@ -278,17 +278,17 @@ async def cricket_response(message: str) -> str:
     return unknown_response()
 
 
-def unknown_response():
+def unknown_response() -> str:
     return (
         "👋 I'm a Cricket Assistant.\n\n"
         "I can help you with:\n"
-        "- Live matches\n"
-        "- Upcoming matches\n"
-        "- Player information\n"
-        "- Match details\n"
-        "- Series information\n\n"
+        "• Live matches\n"
+        "• Upcoming matches\n"
+        "• Player information\n"
+        "• Match details\n"
+        "• Series information\n\n"
         "I can't answer general questions like "
-        "\"What is ChatGPT?\" or \"Who is Elon Musk?\""
+        "\"What is ChatGPT?\" or \"Who is Elon Musk?\ or \"Anything except Cricket Assistance\""
     )
 
 
