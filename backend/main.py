@@ -6,7 +6,7 @@ from routes import router
 app = FastAPI(
     title=APP_NAME,
     version=APP_VERSION,
-    description="Backend API for Website Data Chatbot"
+    description="Backend API for Cricket Data Chatbot"
 )
 
 app.include_router(router)
