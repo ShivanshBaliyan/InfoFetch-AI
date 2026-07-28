@@ -6,7 +6,7 @@ st.set_page_config(
     page_icon="💬",
 )
 
-st.title("💬 Website Data Chatbot")
+st.title("💬 Cricket Data Chatbot")
 
 # Initialize conversation
 if "messages" not in st.session_state:
